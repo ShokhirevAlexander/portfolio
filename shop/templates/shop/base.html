@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    {% block css %}
+    {% endblock css %}
+
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-blue bg-dark fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'olga:index' %}">CAKES FROM Olga</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'olga:index' %}">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'olga:products' %}">Магазин</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Контакты</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Профиль
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if user.is_authenticated %}
+                                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">Корзина</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
+                                    {% if user.is_superuser or user.is_stuff %}
+                                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Админ-панель</a></li>
+                                    {% endif %}
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'users:login' %}">Войти</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'users:register' %}">Регистрация</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </nav>
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>
